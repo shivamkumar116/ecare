@@ -1,0 +1,383 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Ecare | Homepage</title>
+    <!--Bootstrap-->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <!--Customized Css-->
+    <link href="~/Content/assets/css/style.css" rel="stylesheet" />
+
+    <!--FontAwesome-->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          rel="stylesheet" />
+
+</head>
+<body>
+    <div class="wrapper">
+        <div class="inner-wrapper">
+            <nav class="navbar navbar-expand-sm navbar-dark bg-transparent ">
+                <div class="container">
+                    <a class="navbar-brand" href="#">E-Care</a>
+                    <button class="navbar-toggler"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item ">
+                                @Html.ActionLink("About Us", "Index", null, new { @class = "nav-link" })
+
+                            </li>
+                            <li class="nav-item ">
+                                @Html.ActionLink("Contact Us", "Contact", null, new { @class = "nav-link" })
+                            </li>
+
+                            @{
+                                if (Session["Email"] != null)
+                                {
+                                    <li class="nav-item ">
+                                        @Html.ActionLink("Logout","Logout",null,new { @class="nav-link"})
+                                    </li>
+
+
+                                }
+                                else
+                                {
+                                    <li class="nav-item ">
+                                        @Html.ActionLink("Login", "Login", null, new { @class = "nav-link" })
+                                    </li>
+                                    <li class="nav-item ">
+                                        @Html.ActionLink("Register", "Register", null, new { @class = "nav-link" })
+                                    </li>
+
+                                }
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <!--navbar ends-->
+            <!--Jumbotron-->
+            <div class="jumbotron jumbotron-fluid mt-5 mr-auto">
+                <div class="container">
+                    <h2 class="lead " style="font-size: 45px;">
+                        Close to Home. Close to Your Heart
+                    </h2>
+
+                    <hr class="my-2" />
+                    <p>Why wait?</p>
+                    <p class="lead">
+                        <a class="btn btn-custom scroll " href="#appointment">
+                            <i class="fa fa-user-md" aria-hidden="true"></i> Book an
+                            Appointment
+                        </a>
+                    </p>
+                    <p class="lead">For assistance call : 011-1234556</p>
+                </div>
+            </div>
+        </div>
+        <!--navbar-->
+        <div class="container mt-3 " id="appointment">
+            <div class="row">
+                <div class="col-md-4 mt-5">
+                    <img src="~/Content/assets/Images/undraw_medicine_b1ol (1).svg" class="img-fluid" />
+                </div>
+                <div class="col-md-8 mt-5">
+                    <div class="card shadow bg-white">
+                        <div class="card-header bg-custom text-center">
+                            <p class="h4 text-white">Book your appointment</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input type="text"
+                                               name=""
+                                               id="Name"
+                                               class="form-control"
+                                               placeholder=""
+                                               aria-describedby="helpId" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <input type="text"
+                                               name="phonenumber"
+                                               id="phonenumber"
+                                               class="form-control"
+                                               placeholder=""
+                                               aria-describedby="helpId" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <textarea name="address" class="form-control" id="address"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Gender</label>
+                                    </div>
+                                    <div class="form-check-inline" style="margin-top: -20px;">
+                                        <input type="radio"
+                                               class="form-check-input ml-2"
+                                               name="gender"
+                                               value="Male"
+                                               required /><label class="form-check-label">Male</label>
+                                        <input type="radio"
+                                               class="form-check-input ml-2"
+                                               name="gender"
+                                               value="Female"
+                                               required /><label class="form-check-label">Female</label>
+                                        <input type="radio"
+                                               class="form-check-input ml-2"
+                                               name="gender"
+                                               value="Other"
+                                               required /><label class="form-check-label">Other</label>
+                                    </div>
+                                    <div class="form-group mt-3">
+                                        <label>Age</label>
+                                        <input type="text"
+                                               name=""
+                                               id="Age"
+                                               class="form-control"
+                                               placeholder="Enter your age"
+                                               aria-describedby="helpId" />
+                                    </div>
+                                    <div class="form-group ">
+                                        <label>Problem</label>
+                                        <textarea type="text"
+                                                  name=""
+                                                  id="Problem"
+                                                  class="form-control"
+                                                  placeholder="Problem"
+                                                  aria-describedby="helpId"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input class="btn btn-custom" type="button" value="Make Appointment" onclick="data()" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Your Login-->
+        <!-- Modal -->
+        @*<div class="modal fade"
+                 id="LoginModal"
+                 tabindex="-1"
+                 role="dialog"
+                 aria-labelledby="modelTitleId"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                Login
+                            </h5>
+                            <button type="button"
+                                    class="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="form-group">
+                                    <label>Username</label>
+                                    <input type="text"
+                                           name="Username"
+                                           id="usernameLogin"
+                                           class="form-control"
+                                           placeholder="Username" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password"
+                                           name="password"
+                                           id="passwordLogin"
+                                           class="form-control"
+                                           placeholder="Password" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input class="btn btn-primary" type="button" value="Login" onclick="Var()" />
+
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>*@
+        @*<input href="#" onclick="data()"
+            class="btn btn-custom">Login</input>*@
+
+
+
+        <div class="container mt-5 ">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1 class="h1">Features</h1>
+                </div>
+            </div>
+            <div class="row mt-3 ">
+                <div class="col-md-3 ml-5  bg-white  border shadow " style="height: 400px;">
+                    <div class="text-center">
+                        <i class="fa fa-volume-up fa-2x mt-2"
+                           aria-hidden="true"
+                           style="color:crimson"></i>
+                        <p class="pt-2 h4">Voice Enabled Prescription</p>
+                    </div>
+                    <div class="mt-3">
+                        <p>
+                            E-care is a system through which you can easily get your
+                            prescription by speaking to system. Our System is intelligent
+                            enough to give you prescription based on your symptons and past
+                            history of medicine.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 ml-5 bg-white  border shadow" style="height: 400px;">
+                    <div class="text-center">
+                        <i class="fa fa-2x fa-tasks mt-2"
+                           aria-hidden="true"
+                           style="color:green"></i>
+                        <p class="pt-2 h4">Easy Appointments with doctors</p>
+                    </div>
+                    <div class="mt-3">
+                        <p>
+                            We have made easy for you to book an appointment with the doctor
+                            and you can visit to them according to your convienience. You can revisit your profile to check your history with the doctors
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3 ml-5 bg-white  text-center border shadow"
+                     style="height: 400px;">
+                    <div class="text-center">
+                        <i class="fa fa-2x fa-car mt-2"
+                           aria-hidden="true"
+                           style="color:dodgerblue"></i>
+                        <p class="pt-2 h4">Easy Navigation to Hospital</p>
+                    </div>
+                    <div class="mt-3">
+                        <p>
+                            Easy drive from your home to hospital by our system navigation. We have made it easier for you to set up your best route according to your appointment status.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-4">
+        <div class="row  text-white bg-custom" style="height: 200px;">
+            <div class="col-lg-4 mt-4">
+                <h1 class="h1">E-Care</h1>
+            </div>
+            <div class="col-lg-4 mt-4">
+                <p class="lead">Quick Links</p>
+                <div>
+                    <a href="#" class="text-white d-block">Appointment</a>
+                    <a href="#" class="text-white d-block">Sign In</a>
+                    <a href="#" class="text-white d-block">Sign up</a>
+                    <a href="#" class="text-white d-block">Emergency</a>
+                </div>
+            </div>
+            <div class="col-lg-4 mt-4">
+                <p class="lead">Address</p>
+                <div>
+                    <p>Lovely Infotech </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--your Login ends-->
+    <!--signup-->
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    @*<div class="modal fade"
+             id="SignUpModal"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="modelTitleId"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Sign up</h5>
+                        <button type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text"
+                                       id="FullName"
+                                       class="form-control"
+                                       placeholder="FullName" />
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text"
+                                       id="Email"
+                                       class="form-control"
+                                       placeholder="Email" />
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password"
+                                       id="Password"
+                                       class="form-control"
+                                       placeholder="Password" />
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password</label>
+                                <input type="password"
+                                       id="ConformPassword"
+                                       class="form-control"
+                                       placeholder="Conform Password" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" value="Sign Up" class="btn btn-custom" onclick="Save()">
+                        <input type="button" value="Close" class="btn btn-danger" data-dismiss="modal">
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    <!--signup end-->
+    <!--appointment-->
+    <!--appointment ends-->
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/umd/popper.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>
