@@ -7,30 +7,23 @@
 
 <h2>Doctors</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<div class="table-responsive">
-    <table class="table">
-        <tr>
+<div class="table-responsive ta">
+    <p>
+        @Html.ActionLink("Create New", "Create", "DoctorMaster", new { @class = "btn btn-custom text-white btn-sm" })
+    </p>
+    <table id="myTable" class="table table-bordered table-sm table-hover">
+        <tr class="bg-custom text-white thead-light">
             <th>
-                @Html.DisplayNameFor(model => model.RoleName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmployeeCode)
+                @Html.DisplayNameFor(model => model.DoctorId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DoctorName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HospitalId)
+                @Html.DisplayNameFor(model => model.DoctorAddress)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DoctorSpecialization)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DoctorDegree)
-            </th>
+
+
             <th>
                 @Html.DisplayNameFor(model => model.DoctorPhone)
             </th>
@@ -38,28 +31,7 @@
                 @Html.DisplayNameFor(model => model.DoctorEmail)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DoctorCity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DoctorState)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DoctorCountry)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EntryDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EntryBy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RoleId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DoctorAddress)
             </th>
             <th></th>
         </tr>
@@ -68,23 +40,15 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RoleName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeCode)
+                    @Html.DisplayFor(modelItem => item.DoctorId)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DoctorName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.HospitalId)
+                    @Html.DisplayFor(modelItem => item.DoctorAddress)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DoctorSpecialization)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DoctorDegree)
-                </td>
+
                 <td>
                     @Html.DisplayFor(modelItem => item.DoctorPhone)
                 </td>
@@ -92,36 +56,18 @@
                     @Html.DisplayFor(modelItem => item.DoctorEmail)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DoctorCity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DoctorState)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DoctorCountry)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.IsActive)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EntryDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EntryBy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RoleId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DoctorAddress)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.DoctorId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.DoctorId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.DoctorId })
+                <td class="w-25">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.DoctorId }, new { @class = "btn btn-info" })
+
+                    @Html.ActionLink("Delete", "Delete", new { id = item.DoctorId }, new { @class = "btn btn-danger", onclick = "return confirm('Are you sure to delete?');" })
                 </td>
             </tr>
         }
 
     </table>
 </div>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+

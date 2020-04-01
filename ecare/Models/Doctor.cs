@@ -8,9 +8,11 @@ namespace ecare.Models
     public class Doctor
     {
         [Display(Name = "DoctorId")]
-        public string RoleName { get; set; }
+     
         public int DoctorId { get; set; }
         public int EmployeeCode { get; set; }
+        public HttpPostedFileBase DoctorPhoto { get; set; }
+
         public string DoctorName { get; set; }
         public int HospitalId { get; set; }
         public string DoctorSpecialization { get; set; }
@@ -21,11 +23,9 @@ namespace ecare.Models
         public string DoctorState { get; set; }
 
         public string DoctorCountry { get; set; }
-        public int IsActive { get; set; }
+        public bool IsActive { get; set; }
         public string EntryDate { get; set; }
         public string EntryBy { get; set; }
-
-        public int RoleId { get; set; }
         public string DoctorAddress { get; set; }
 
 
