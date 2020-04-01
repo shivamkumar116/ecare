@@ -13,6 +13,7 @@ namespace ecare.Controllers
     public class HomeController : Controller
     {
 
+
         private readonly string cs = WebConfigurationManager.ConnectionStrings["dbECare"].ConnectionString;
 
         public ActionResult Index()
@@ -146,14 +147,14 @@ namespace ecare.Controllers
                     if (dt.Rows.Count > 0)
                     {
                         String password = dt.Rows[0]["Password"].ToString();
-                        ViewBag.Message = password;
+                        ViewBag.SuccessMessage = password;
                         ModelState.Clear();
-                        //Code to send the email
+                          //Code to send the email
 
                     }
                     else
                     {
-                        ViewBag.Message = "No record Found!";
+                        ViewBag.ErrorMessage = "Null";
                         ModelState.Clear();
                     }
 
