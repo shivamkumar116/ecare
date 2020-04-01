@@ -1,119 +1,241 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
-using System.Data.SqlClient;
-using ecare.Models;
 using System.Web.Configuration;
+using System.Web.Mvc;
+using ecare.Models;
+
 namespace ecare.Controllers
 {
     public class DoctorMasterController : Controller
     {
+        // GET: DoctorMaster
+        private static readonly string cs = WebConfigurationManager.ConnectionStrings["dbECare"].ConnectionString;
 
-        String cs = WebConfigurationManager.ConnectionStrings["dbECare"].ConnectionString;
-        
-        
-        // 1. *************RETRIEVE ALLDoctor DETAILS ******************
-        // GET:Doctor
         public ActionResult Index()
         {
-            DoctorMasterDbHandle dbhandle = new DoctorMasterDbHandle();
-            ModelState.Clear();
-            return View(dbhandle.GetDoctor());
+            return View(GetDoctors());
         }
 
-        // 2. *************ADD NEWDoctor ******************
-        // GET:Doctor/Create
         public ActionResult Create()
         {
-            SqlConnection con = new SqlConnection(cs);
-
-            // writing sql query  
-            SqlCommand cm = new SqlCommand("pdropdownRollName", con);
-            // Opening Connection  
-            con.Open();
-            // Executing the SQL query  
-            SqlDataReader sdr = cm.ExecuteReader();
-            // Iterating Data
-            List<string> record;
-            List<List<string>> data = new List<List<string>> { };
-
-            while (sdr.Read())
-            {
-                record = new List<string> { sdr["RoleName"].ToString() }; data.Add(record);
-            }
-            ViewBag.Data = data;
             return View();
         }
 
-        // POST:Doctor/Create
+
+
         [HttpPost]
-        [ActionName("formsubmit")]
-        public ActionResult Create(Doctor smodel)
+        public ActionResult Create(Doctor objDoctor)
         {
+            SqlConnection con = new SqlConnection(cs);
             try
             {
-                if (ModelState.IsValid)
+                con.Open();
+                SqlCommand cmd = new SqlCommand("pInsertDoctorMaster", con)
                 {
-                    DoctorMasterDbHandle sdb = new DoctorMasterDbHandle();
-                    if (sdb.AddDoctor(smodel))
-                    {
-                        ViewBag.Message = "Doctor Details Added Successfully";
-                        ModelState.Clear();
-                    }
+                    CommandType = CommandType.StoredProcedure
+                };
+
+
+                cmd.Parameters.AddWithValue("@EmployeeCode", objDoctor.EmployeeCode);
+
+                if (objDoctor.DoctorPhoto != null && objDoctor.DoctorPhoto.ContentLength > 0)
+                {
+
+                    string FileName = Path.GetFileName(objDoctor.DoctorPhoto.FileName);
+                    FileName = DateTime.Now.ToString("yyyyMMdd") + "-" + FileName;
+                    string UploadPath = Path.Combine(Server.MapPath(ConfigurationManager.AppSettings["HospitalLogoPath"].ToString()), FileName);
+                    objDoctor.DoctorPhoto.SaveAs(UploadPath);
+                    cmd.Parameters.AddWithValue("@DoctorPhoto", (DateTime.Now.ToString("yyyyMMdd") + "-" + objDoctor.DoctorPhoto.FileName));
                 }
-                return View();
+                cmd.Parameters.AddWithValue("@DoctorName", objDoctor.DoctorName);
+                cmd.Parameters.AddWithValue("@HospitalId", objDoctor.HospitalId);
+                cmd.Parameters.AddWithValue("@DoctorSpecialization", objDoctor.DoctorSpecialization);
+                cmd.Parameters.AddWithValue("@DoctorDegree", objDoctor.DoctorDegree);
+                cmd.Parameters.AddWithValue("@DoctorPhone", objDoctor.DoctorPhone);
+                cmd.Parameters.AddWithValue("@DoctorEmail", objDoctor.DoctorEmail);
+                cmd.Parameters.AddWithValue("@DoctorCity", objDoctor.DoctorCity);
+                cmd.Parameters.AddWithValue("@DoctorState", objDoctor.DoctorState);
+                cmd.Parameters.AddWithValue("@DoctorCountry", objDoctor.DoctorCountry);
+                cmd.Parameters.AddWithValue("@IsActive", objDoctor.IsActive);
+                cmd.Parameters.AddWithValue("@EntryDate", DateTime.Now);
+                cmd.Parameters.AddWithValue("@EntryBy", objDoctor.EntryBy);
+                cmd.Parameters.AddWithValue("@DoctorAddress", objDoctor.DoctorAddress);
+
+                int i = cmd.ExecuteNonQuery();
+                if (i >= 1)
+                    ViewBag.SuccessMessage = "success";
+                else
+                    ViewBag.ErrorMessage = "Failed";
+
+
             }
-            catch (Exception ex)
+            catch (SqlException ex)
+            { }
+            finally
             {
-                ex.StackTrace.ToString();
-                return View();
+                con.Close();
             }
+            ModelState.Clear();
+            return View();
         }
 
-        // 3. ************* EDITDoctor DETAILS ******************
-        // GET:Doctor/Edit/5
-        public ActionResult Edit(int id)
-        {
-            DoctorMasterDbHandle sdb = new DoctorMasterDbHandle();
-            return View(sdb.GetDoctor().Find(smodel => smodel.DoctorId == id));
-        }
 
-        // POST:Doctor/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, Doctor smodel)
-        {
-            try
-            {
-                DoctorMasterDbHandle sdb = new DoctorMasterDbHandle();
-                sdb.UpdateDetails(smodel);
-                return RedirectToAction("DoctorList");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                return View();
-            }
-        }
 
-        // 4. ************* DELETEDoctor DETAILS ******************
-        // GET:Doctor/Delete/5
+
         public ActionResult Delete(int id)
         {
+
             try
             {
-                DoctorMasterDbHandle sdb = new DoctorMasterDbHandle();
-                if (sdb.DeleteDoctor(id))
+
+                if (DeleteDoctor(id))
                 {
-                    ViewBag.AlertMsg = "S Deleted Successfully";
+                    ViewBag.SuccessMessage = "Success";
+
                 }
-                return RedirectToAction("DoctorList");
+                else
+                {
+                    ViewBag.ErrorMessage = "error";
+
+                }
+                return RedirectToAction("Index");
             }
             catch
             {
                 return View();
             }
+
         }
+
+        public ActionResult Edit(int id)
+        {
+            return View(GetDoctors().Find(model => model.DoctorId == id));
+        }
+        [HttpPost]
+        public ActionResult Edit(int id, Doctor objDoctor)
+
+        {
+            SqlConnection con = new SqlConnection(cs);
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("pUpdateDoctorMaster", con)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@DoctorId", objDoctor.DoctorId);
+                cmd.Parameters.AddWithValue("@EmployeeCode", objDoctor.EmployeeCode);
+                cmd.Parameters.AddWithValue("@DoctorName", objDoctor.DoctorName);
+                cmd.Parameters.AddWithValue("@HospitalId", objDoctor.HospitalId);
+                cmd.Parameters.AddWithValue("@DoctorSpecialization", objDoctor.DoctorSpecialization);
+                cmd.Parameters.AddWithValue("@DoctorDegree", objDoctor.DoctorDegree);
+                cmd.Parameters.AddWithValue("@DoctorPhone", objDoctor.DoctorPhone);
+                cmd.Parameters.AddWithValue("@DoctorEmail", objDoctor.DoctorEmail);
+                cmd.Parameters.AddWithValue("@DoctorCity", objDoctor.DoctorCity);
+                cmd.Parameters.AddWithValue("@DoctorState", objDoctor.DoctorState);
+                cmd.Parameters.AddWithValue("@DoctorCountry", objDoctor.DoctorCountry);
+                cmd.Parameters.AddWithValue("@IsActive", objDoctor.IsActive);
+
+                cmd.Parameters.AddWithValue("@EntryBy", objDoctor.EntryBy);
+                cmd.Parameters.AddWithValue("@DoctorAddress", objDoctor.DoctorAddress);
+
+
+                int i = cmd.ExecuteNonQuery();
+                if (i >= 1)
+                    ViewBag.SuccessMessage = "success";
+                else
+                    ViewBag.ErrorMessage = "Failed";
+            }
+            catch (SqlException ex)
+            { }
+            finally
+            {
+                con.Close();
+            }
+            ModelState.Clear();
+
+
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpGet]
+        public static List<Doctor> GetDoctors()
+        {
+            List<Doctor> DoctorList = new List<Doctor>();
+            SqlConnection con = new SqlConnection(cs);
+            SqlCommand cmd = new SqlCommand("pDoctorMasterDetails", con)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            SqlDataAdapter sd = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            sd.Fill(dt);
+            con.Close();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                DoctorList.Add(
+                    new Doctor
+                    {
+                        DoctorId = Convert.ToInt32(dr["DoctorId"]),
+                        EmployeeCode = Convert.ToInt32(dr["EmployeeCode"]),
+                        DoctorName = Convert.ToString(dr["DoctorName"]),
+
+                        HospitalId = Convert.ToInt32(dr["HospitalId"]),
+                        DoctorSpecialization = Convert.ToString(dr["DoctorSpecialization"]),
+                        DoctorDegree = Convert.ToString(dr["DoctorDegree"]),
+                        DoctorPhone = Convert.ToString(dr["DoctorPhone"]),
+                        DoctorEmail = Convert.ToString(dr["DoctorEmail"]),
+
+                        DoctorCity = Convert.ToString(dr["DoctorCity"]),
+                        DoctorState = Convert.ToString(dr["DoctorState"]),
+                        DoctorCountry = Convert.ToString(dr["DoctorCountry"]),
+                        IsActive = Convert.ToBoolean(dr["IsActive"]),
+                        EntryBy = Convert.ToString(dr["EntryBy"]),
+                        DoctorAddress = Convert.ToString(dr["DoctorAddress"]),
+
+                    });
+            }
+            return DoctorList;
+        }
+        public static bool DeleteDoctor(int id)
+        {
+            SqlConnection con = new SqlConnection(cs);
+
+            SqlCommand cmd = new SqlCommand("pDeleteDoctorMaster", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@DoctorId", id);
+            try
+            {
+                con.Open();
+                int i = cmd.ExecuteNonQuery();
+                con.Close();
+
+                if (i >= 1)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception e)
+            {
+            }
+            finally
+            {
+                con.Close();
+            }
+            return false;
+        }
+
+
     }
 }
