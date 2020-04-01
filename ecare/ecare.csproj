@@ -162,6 +162,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HospitalMasterController.cs" />
     <Compile Include="Controllers\RoleMasterController.cs" />
+    <Compile Include="Controllers\StaffMasterController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -356,6 +357,7 @@
     <Content Include="Views\DoctorMaster\Index.cshtml" />
     <Content Include="Views\DoctorMaster\Create.cshtml" />
     <Content Include="Views\DoctorMaster\Edit.cshtml" />
+    <Content Include="Views\StaffMaster\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
