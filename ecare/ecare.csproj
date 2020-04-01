@@ -158,6 +158,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DoctorMasterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HospitalMasterController.cs" />
     <Compile Include="Controllers\RoleMasterController.cs" />
@@ -165,6 +166,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Appointment.cs" />
+    <Compile Include="Models\AppointmentMaterDbHandle.cs" />
+    <Compile Include="Models\Doctor.cs" />
+    <Compile Include="Models\DoctorMasterDbHandle.cs" />
     <Compile Include="Models\Hospital.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
@@ -347,6 +352,10 @@
     <Content Include="Views\RoleMaster\Index.cshtml" />
     <Content Include="Views\RoleMaster\Create.cshtml" />
     <Content Include="Views\RoleMaster\Edit.cshtml" />
+    <Content Include="Views\Shared\_HospitalLayoutPage.cshtml" />
+    <Content Include="Views\DoctorMaster\Index.cshtml" />
+    <Content Include="Views\DoctorMaster\Create.cshtml" />
+    <Content Include="Views\DoctorMaster\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
