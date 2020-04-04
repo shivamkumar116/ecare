@@ -141,10 +141,10 @@ namespace ecare.Controllers
                 cmd.Parameters.AddWithValue("@DoctorState", objDoctor.DoctorState);
                 cmd.Parameters.AddWithValue("@DoctorCountry", objDoctor.DoctorCountry);
                 cmd.Parameters.AddWithValue("@IsActive", objDoctor.IsActive);
-
+             
                 cmd.Parameters.AddWithValue("@EntryBy", objDoctor.EntryBy);
                 cmd.Parameters.AddWithValue("@DoctorAddress", objDoctor.DoctorAddress);
-
+              
 
                 int i = cmd.ExecuteNonQuery();
                 if (i >= 1)
@@ -187,19 +187,19 @@ namespace ecare.Controllers
                     new Doctor
                     {
                         DoctorId = Convert.ToInt32(dr["DoctorId"]),
-                        EmployeeCode = Convert.ToInt32(dr["EmployeeCode"]),
+                        EmployeeCode = Convert.ToInt32 (dr["EmployeeCode"]),
                         DoctorName = Convert.ToString(dr["DoctorName"]),
 
                         HospitalId = Convert.ToInt32(dr["HospitalId"]),
                         DoctorSpecialization = Convert.ToString(dr["DoctorSpecialization"]),
-                        DoctorDegree = Convert.ToString(dr["DoctorDegree"]),
+                        DoctorDegree = Convert.ToString (dr["DoctorDegree"]),
                         DoctorPhone = Convert.ToString(dr["DoctorPhone"]),
                         DoctorEmail = Convert.ToString(dr["DoctorEmail"]),
 
                         DoctorCity = Convert.ToString(dr["DoctorCity"]),
                         DoctorState = Convert.ToString(dr["DoctorState"]),
                         DoctorCountry = Convert.ToString(dr["DoctorCountry"]),
-                        IsActive = Convert.ToBoolean(dr["IsActive"]),
+                        IsActive = Convert.ToBoolean (dr["IsActive"]),                     
                         EntryBy = Convert.ToString(dr["EntryBy"]),
                         DoctorAddress = Convert.ToString(dr["DoctorAddress"]),
 

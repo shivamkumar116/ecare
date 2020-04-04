@@ -188,7 +188,6 @@ namespace ecare.Controllers
                         HospitalCountry = Convert.ToString(dr["HospitalCountry"]),
                         HospitalPhone = Convert.ToString(dr["HospitalPhone"]),
                         HospitalEmail = Convert.ToString(dr["HospitalEmail"]),
-
                         IsActive = Convert.ToBoolean(dr["IsActive"]),
                         EntryDateTime = Convert.ToString(dr["EntryDateTime"]),
                         EntryBy = Convert.ToString(dr["EntryBy"])

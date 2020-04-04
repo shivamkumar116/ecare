@@ -20,7 +20,7 @@ namespace ecare.Models
         }
 
         // **************** ADD NEW Appointment *********************
-        public bool AddAppointment(Appointment smodel)
+        public bool AddAppointment(Reception smodel)
         {
             connection();
             SqlCommand cmd = new SqlCommand("pInsertAppointmentMaster", con);
@@ -47,10 +47,10 @@ namespace ecare.Models
         }
 
         // ********** VIEW Appointment DETAILS ********************
-        public List<Appointment> GetAppointment()
+        public List<Reception> GetAppointment()
         {
             connection();
-            List<Appointment> Appointmentlist = new List<Appointment>();
+            List<Reception> Appointmentlist = new List<Reception>();
 
             SqlCommand cmd = new SqlCommand("pDetailsAppointmentMaster", con);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -64,7 +64,7 @@ namespace ecare.Models
             foreach (DataRow dr in dt.Rows)
             {
                 Appointmentlist.Add(
-                    new Appointment
+                    new Reception
                     {
                         AppointmentId = Convert.ToInt32(dr["AppointmentId"]),
                         Name = Convert.ToString(dr["Name"]),
@@ -82,7 +82,7 @@ namespace ecare.Models
         }
 
         // ***************** UPDATE Appointment DETAILS *********************
-        public bool UpdateDetails(Appointment smodel)
+        public bool UpdateDetails(Reception smodel)
         {
             connection();
             SqlCommand cmd = new SqlCommand("pUpdateVitalMaster", con);
